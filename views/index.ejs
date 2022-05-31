@@ -1,0 +1,41 @@
+<%- include("partials/pagetop") %>
+<section class="w-75 mx-auto">
+    <article>
+        <form action="POST" class="d-flex justify-content-end bg-secondary">
+            <label for="userame" class="m-2 px-2 text-white font-size-5" >Username: </label>
+            <input type="text" max="16" class="m-2"/>
+        </form>
+    </article>
+
+    <article>
+
+        <table class="w-100 table">
+            <thead class="bg-dark text-white text-center">
+                <tr>
+                    <th colspan="2">Name: </th>
+                    <th>RAW Investment: </th>
+                    <th>RAW Return: </th>
+                    <th>ROI: </th>
+                    <th>Profit: </th>
+                    <th>Requirements: </th>
+                    <th>Remove: </th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let item of methods) { %>
+                    <tr>
+                        <td></td>
+                        <td><%= item.name %></td>
+                        <td><%= (item.investment).toLocaleString('en-US') %></td>
+                        <td><%= (item.return).toLocaleString('en-US') %></td>
+                        <td><%= ((item.return/item.investment)*100).toLocaleString('en-US') %> %</td>
+                        <td><%= (item.return-item.investment).toLocaleString('en-US') %></td>
+                        <td><%= item.requirements.map(i => `${i.name}: ${i.requirement}`).join("\n") %></td>
+                        <td><a href="/removeMethod/<%= item.id %>">Remove item</a></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </article>
+</section>
+<%- include("partials/pagebtm") %>

@@ -1,0 +1,31 @@
+<%- include("partials/pagetop") %>
+<section class="w-75 mx-auto">
+
+    <article class="container">
+        <form action="POST" autocomplete="off">
+
+            <label for="name" class="h2 pt-5">Name:</label>
+            <input id="text" name="name" id="name" class="w-100"></textarea>
+
+            
+            <label for="description" class="h2 pt-5">Description:</label>
+            <textarea id="description" name="description" class="w-100"></textarea>
+
+            <p class="h2 pt-5">Input items</p>
+            <div id="inputItems" class="row">
+                <label for="inputItem0" class="col-sm py-1">Item 0: </label>
+                <input type="number" name="inputItem0" id="inputItem0" class="col-sm">
+            </div>
+
+            <p class="h2 pt-5">Requirements: </p>
+            <% for(let skillName of skills){ %>
+                <div class="row py-2">
+                    <label for="<%= skillName %>" class="px-2 col-sm"><%= skillName %></label>
+                    <input type="number" min="1" max="3" id="" name="" value="1" class="col-sm"/>
+                </div>
+            <% } %>
+            <% console.dir(skills) %>
+        </form>
+    </article>
+</section>
+<%- include("partials/pagebtm") %>
