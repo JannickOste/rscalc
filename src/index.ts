@@ -1,8 +1,5 @@
 import { AppDataSource } from "./data-source"
 import { MoneyMakingMethod } from "./db/money-making-method";
-import IItem from "./interfaces/IItem";
-import Exchange from 'osrs-exchange';
-import highscore from "./api/highscore";
 import path = require("path");
 import Skill from "./enums/skill";
 import npcs from "./api/npcs";
@@ -20,7 +17,7 @@ class App
         await AppDataSource.initialize();
 
         // Initialize configuration.
-        this.webserver.set("port", 80);
+        this.webserver.set("port", 8080);
         this.webserver.use(this.express.urlencoded({extended: true}));
         this.webserver.set("view engine", "ejs");
         this.webserver.set("page handler directory", "./src/pages/");
@@ -50,7 +47,7 @@ class App
             }                   
         });
 
-
+        // todo replace with route attributes.
         this.webserver.get("/removeMethod/:id", async(req, res) => {
             let message = "";
             const item = await AppDataSource.manager.findOne(MoneyMakingMethod, {where: {id: Number.parseInt(req.params.id)}});
@@ -63,10 +60,15 @@ class App
             return res.render("message", {message: message});
         });
 
-        this.webserver.get("/addMethod", async(req, res) => {
-            console.log();
+        this.webserver.get("/addMethod", (req, res) => {
             return res.render("addMethod", {skills: Array.from({length: Skill.Construction}, (val, key) => key+1).map(i => Skill[i])});
         });
+
+        this.webserver.post("/addMethod", (req, res) => {
+            console.dir(req.body);
+            
+            return res.render("message", {message: "hello world"})
+        })
     }
 
     

@@ -1,8 +1,49 @@
 <%- include("partials/pagetop") %>
-<section class="w-75 mx-auto">
 
+<script type="text/javascript" defer>
+    function addItemField(targetIO)
+    {
+        let target =  document.getElementById(targetIO+"Items");
+        target.insertAdjacentHTML("beforeend", 
+            `<div id="${targetIO}Items${target.childElementCount}" class="p-3">`+
+                `<p class="h4">Item ${target.childElementCount}: </p>`+
+                '<div class="row mt-2">'+
+                    `<label for="${targetIO}Item" class="col-sm py-1">Item name: </label>`+
+                    `<input type="number" name="${targetIO}Item" id="${targetIO}Item" class="col-sm">`+
+                '</div>'+
+                '<div class="row mt-2">'+
+                    `<label for="${targetIO}ItemAmount" class="col-sm py-1">Amount: </label>`+
+                    `<input type="number" name="${targetIO}ItemAmount" id="${targetIO}ItemAmount" class="col-sm">`+
+                '</div>'+
+                `<button type="button" class="mt-2 p-2" style="display: block; margin-left: auto;" onclick="removeInputItem(${target.childElementCount})">Remove item</button>`+
+            '</div>'
+            );
+    }
+    function addinputitem() { addItemField("input"); }
+    function addoutputitem() { addItemField("output"); }
+
+    function removeinputitem(position)
+    {
+        let target = document.getElementById("inputItems");
+        target.removeChild(target.childNodes[position]);
+    }
+
+
+    function removeoutputitem(position)
+    {
+        let target = document.getElementById("outputItems");
+        target.removeChild(target.childNodes[position]);
+    }
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        addinputitem();
+        addoutputitem();
+    });
+</script>
+
+<section class="w-75 mx-auto">
     <article class="container">
-        <form action="POST" autocomplete="off">
+        <form method="POST" autocomplete="off">
 
             <label for="name" class="h2 pt-5">Name:</label>
             <input id="text" name="name" id="name" class="w-100"></textarea>
@@ -12,10 +53,12 @@
             <textarea id="description" name="description" class="w-100"></textarea>
 
             <p class="h2 pt-5">Input items</p>
-            <div id="inputItems" class="row">
-                <label for="inputItem0" class="col-sm py-1">Item 0: </label>
-                <input type="number" name="inputItem0" id="inputItem0" class="col-sm">
-            </div>
+            <div id="inputItems"></div>
+            <button type="button" onclick="addinputitem()" class="w-100 m-2">Add input item</button>
+
+            <p class="h2 pt-5">Output items</p>
+            <div id="outputItems"></div>
+            <button type="button" onclick="addoutputitem()" class="w-100 m-2">Add output item</button>
 
             <p class="h2 pt-5">Requirements: </p>
             <% for(let skillName of skills){ %>
@@ -24,7 +67,8 @@
                     <input type="number" min="1" max="3" id="" name="" value="1" class="col-sm"/>
                 </div>
             <% } %>
-            <% console.dir(skills) %>
+
+            <input type="submit" value="Add method" />
         </form>
     </article>
 </section>
